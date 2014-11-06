@@ -15,40 +15,66 @@ import java.io.IOException;
 public class AsteroidsGame extends PApplet {
 
 SpaceShip ship;
+Star[] stars;
+boolean forward = false;
+boolean backward = false;
+boolean clockwise = false;
+boolean counterclockwise = false;
 public void setup() 
 {
   size(500, 500);
   //frameRate(100);
   ship = new SpaceShip();
+  stars = new Star[500];
+  for(int i = 0; i < stars.length; i++)
+  {
+    stars[i] = new Star();
+  }
 }
 public void draw() 
 {
   background(0);
   ship.move();
   ship.show();
-
+  for(int i = 0; i < stars.length; i++)
+  {
+    stars[i].show();
+  }
+  if(forward == true)
+  {
+    ship.accelerate(0.1f);
+  }
+  if(backward == true)
+  {
+    ship.accelerate(-0.1f);
+  }
+  if(clockwise == true)
+  {
+    ship.rotate(5);
+  }
+  if(counterclockwise == true)
+  {
+    ship.rotate(-5);
+  }
 }
 public void keyPressed()
 {
   if(key == '8')
   {
-    ship.accelerate(0.5f);
+    forward = true;
   }
   if(key == '2')
   {
-    ship.accelerate(-0.5f);
+    backward = true;
   }
   if(key == '6')
   {
-    ship.rotate(5);
+    clockwise = true;
   }
   if(key == '4')
   {
-    ship.rotate(-5);
+    counterclockwise = true;
   }
-}
-public void keyTyped()
-{
   if (key == ' ')
   {
     ship.setX((int)(Math.random() * 500));
@@ -56,6 +82,41 @@ public void keyTyped()
     ship.setDirectionX(0);
     ship.setDirectionY(0);
     ship.setPointDirection((int)(Math.random() * 360));
+  }
+}
+public void keyReleased()
+{
+  if(key == '8')
+  {
+    forward = false;
+  }
+  if(key == '2')
+  {
+    backward = false;
+  }
+  if(key == '6')
+  {
+    clockwise = false;
+  }
+  if(key == '4')
+  {
+    counterclockwise = false;
+  }
+}
+class Star
+{
+  private int myX, myY, mySize;
+  public Star()
+  {
+    myX = (int)(Math.random() * 500);
+    myY = (int)(Math.random() * 500);
+    mySize = (int)(Math.random() * 3) + 1;
+  }
+  public void show()
+  {
+    strokeWeight(mySize);
+    stroke(255, 255, 255, 100);
+    point(myX, myY);
   }
 }
 class SpaceShip extends Floater  
