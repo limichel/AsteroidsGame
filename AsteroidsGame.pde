@@ -43,19 +43,19 @@ public void draw()
 }
 public void keyPressed()
 {
-  if(key == '8')
+  if(key == 'w')
   {
     forward = true;
   }
-  if(key == '2')
+  if(key == 's')
   {
     backward = true;
   }
-  if(key == '6')
+  if(key == 'd')
   {
     clockwise = true;
   }
-  if(key == '4')
+  if(key == 'a')
   {
     counterclockwise = true;
   }
@@ -65,24 +65,24 @@ public void keyPressed()
     ship.setY((int)(Math.random() * 500));
     ship.setDirectionX(0);
     ship.setDirectionY(0);
-    ship.setPointDirection((int)(Math.random() * 360));
+    ship.setPointDirection((int)(Math.random() * 30));
   }
 }
 public void keyReleased()
 {
-  if(key == '8')
+  if(key == 'w')
   {
     forward = false;
   }
-  if(key == '2')
+  if(key == 's')
   {
     backward = false;
   }
-  if(key == '6')
+  if(key == 'd')
   {
     clockwise = false;
   }
-  if(key == '4')
+  if(key == 'a')
   {
     counterclockwise = false;
   }
