@@ -23,11 +23,11 @@ boolean clockwise = false;
 boolean counterclockwise = false;
 public void setup() 
 {
-  size(500, 500);
+  size(800, 800);
   //frameRate(100);
   ship = new SpaceShip();
-  stars = new Star[500];
-  asteroids = new Asteroid[7];
+  stars = new Star[800];
+  asteroids = new Asteroid[15];
   for(int i = 0; i < stars.length; i++)
   {
     stars[i] = new Star();
@@ -119,8 +119,8 @@ class Star
   private int myX, myY, mySize;
   public Star()
   {
-    myX = (int)(Math.random() * 500);
-    myY = (int)(Math.random() * 500);
+    myX = (int)(Math.random() * 800);
+    myY = (int)(Math.random() * 800);
     mySize = (int)(Math.random() * 3) + 1;
   }
   public void show()
@@ -146,8 +146,8 @@ class SpaceShip extends Floater
     xCorners[3] = -6;
     yCorners[3] = 0;
     myColor = color(255);
-    myCenterX = 250;
-    myCenterY = 250;
+    myCenterX = 400;
+    myCenterY = 400;
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
@@ -183,9 +183,9 @@ class Asteroid extends Floater
     yCorners[4] = -6;
     xCorners[5] = 3;
     yCorners[5] = -9;
-    myColor = color(210);
-    myCenterX = (int)(Math.random() * 500);
-    myCenterY = (int)(Math.random() * 500);
+    myColor = color(200);
+    myCenterX = (int)(Math.random() * 800);
+    myCenterY = (int)(Math.random() * 800);
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
