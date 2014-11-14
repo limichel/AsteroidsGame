@@ -1,6 +1,6 @@
 SpaceShip ship;
 Star[] stars;
-Asteroid[] asteroids;
+ArrayList <Asteroid> asteroids;
 boolean forward = false;
 boolean backward = false;
 boolean clockwise = false;
@@ -11,14 +11,14 @@ public void setup()
   //frameRate(100);
   ship = new SpaceShip();
   stars = new Star[800];
-  asteroids = new Asteroid[15];
+  asteroids = new ArrayList <Asteroid>();
   for(int i = 0; i < stars.length; i++)
   {
     stars[i] = new Star();
   }
-  for(int i = 0; i < asteroids.length; i++)
+  for(int i = 0; i < 15; i++)
   {
-    asteroids[i] = new Asteroid();
+    asteroids.add(new Asteroid());
   }
 }
 public void draw() 
@@ -30,10 +30,14 @@ public void draw()
   }
   ship.move();
   ship.show();
-  for(int i = 0; i < asteroids.length; i++)
+  for(int i = 0; i < asteroids.size(); i++)
   {
-    asteroids[i].move();
-    asteroids[i].show();
+    asteroids.get(i).move();
+    asteroids.get(i).show();
+    if(dist(ship.getX(), ship.getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) < 20)
+    {
+      asteroids.remove(i);
+    }
   }
   if(forward == true)
   {
@@ -51,6 +55,7 @@ public void draw()
   {
     ship.rotate(-5);
   }
+  
 }
 public void keyPressed()
 {
