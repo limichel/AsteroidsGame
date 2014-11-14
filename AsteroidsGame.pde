@@ -77,8 +77,8 @@ public void keyPressed()
   }
   if (key == ' ')
   {
-    ship.setX((int)(Math.random() * 500));
-    ship.setY((int)(Math.random() * 500));
+    ship.setX((int)(Math.random() * 800));
+    ship.setY((int)(Math.random() * 800));
     ship.setDirectionX(0);
     ship.setDirectionY(0);
     ship.setPointDirection((int)(Math.random() * 30));
