@@ -15,17 +15,19 @@ import java.io.IOException;
 public class AsteroidsGame extends PApplet {
 
 SpaceShip ship;
+ArrayList <Bullet> bullets;
 Star[] stars;
 ArrayList <Asteroid> asteroids;
 boolean forward = false;
 boolean backward = false;
 boolean clockwise = false;
 boolean counterclockwise = false;
+boolean shoot =  false;
 public void setup() 
 {
   size(800, 800);
-  //frameRate(100);
   ship = new SpaceShip();
+  bullets = new ArrayList <Bullet>();
   stars = new Star[800];
   asteroids = new ArrayList <Asteroid>();
   for(int i = 0; i < stars.length; i++)
@@ -46,13 +48,29 @@ public void draw()
   }
   ship.move();
   ship.show();
+  for(int i = 0; i < bullets.size(); i++)
+  {
+    bullets.get(i).show();
+    if(shoot == true)
+    {
+      bullets.get(i).move();
+      if(bullets.get(i).getX() < 1 || bullets.get(i).getX() > 799 || bullets.get(i).getY() < 1 || bullets.get(i).getY() > 799)
+      {
+        bullets.remove (i);
+      }
+    }
+  }
   for(int i = 0; i < asteroids.size(); i++)
   {
     asteroids.get(i).move();
     asteroids.get(i).show();
-    if(dist(ship.getX(), ship.getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) < 20)
+    for(int ii = 0; ii < bullets.size(); ii++)
     {
-      asteroids.remove(i);
+      if(dist(bullets.get(ii).getX(), bullets.get(ii).getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) < 10)
+      {
+        asteroids.remove(i);
+        bullets.remove(ii);
+      }
     }
   }
   if(forward == true)
@@ -66,10 +84,18 @@ public void draw()
   if(clockwise == true)
   {
     ship.rotate(5);
+    if(ship.getPointDirection() >= 360)
+    {
+      ship.setPointDirection(0);
+    }
   }
   if(counterclockwise == true)
   {
     ship.rotate(-5);
+    if(ship.getPointDirection() <= -360)
+    {
+      ship.setPointDirection(0);
+    }
   }
   
 }
@@ -93,11 +119,11 @@ public void keyPressed()
   }
   if (key == ' ')
   {
-    ship.setX((int)(Math.random() * 500));
-    ship.setY((int)(Math.random() * 500));
+    ship.setX((int)(Math.random() * 800));
+    ship.setY((int)(Math.random() * 800));
     ship.setDirectionX(0);
     ship.setDirectionY(0);
-    ship.setPointDirection((int)(Math.random() * 30));
+    ship.setPointDirection((int)(Math.random() * 360));
   }
 }
 public void keyReleased()
@@ -118,6 +144,10 @@ public void keyReleased()
   {
     counterclockwise = false;
   }
+}
+public void mousePressed(){
+  shoot = true;
+  bullets.add(new Bullet(ship));
 }
 class Star
 {
@@ -167,6 +197,40 @@ class SpaceShip extends Floater
   public double getDirectionY(){return myDirectionY;}
   public void setPointDirection(int degrees){myPointDirection = degrees;}
   public double getPointDirection(){return myPointDirection;}
+}
+class Bullet extends Floater
+{
+  //double dRadians;
+  public Bullet()
+  {
+
+  }
+  public Bullet(SpaceShip theShip)
+  {
+    myColor = color(255);
+    myCenterX = theShip.getX();
+    myCenterY = theShip.getY();
+    myPointDirection = theShip.getPointDirection();
+    double dRadians = myPointDirection*(Math.PI/180);
+    myDirectionX = 5 * Math.cos(dRadians) + theShip.getDirectionX();
+    myDirectionY = 5 * Math.sin(dRadians) + theShip.getDirectionY();
+  }
+  public void setX(int x){myCenterX = x;}
+  public int getX(){return (int)myCenterX;}
+  public void setY(int y){myCenterY = y;}
+  public int getY(){return (int)myCenterY;}
+  public void setDirectionX(double x){myDirectionX = x;}
+  public double getDirectionX(){return myDirectionX;}
+  public void setDirectionY(double y){myDirectionY = y;}
+  public double getDirectionY(){return myDirectionY;}
+  public void setPointDirection(int degrees){myPointDirection = degrees;}
+  public double getPointDirection(){return myPointDirection;}
+  public void show()
+  {
+    noStroke();
+    fill(255);
+    ellipse((float)myCenterX, (float)myCenterY, 10, 10);
+  }
 }
 class Asteroid extends Floater
 {
