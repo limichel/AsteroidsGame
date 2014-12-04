@@ -22,7 +22,7 @@ boolean forward = false;
 boolean backward = false;
 boolean clockwise = false;
 boolean counterclockwise = false;
-boolean shoot =  false;
+int score = 0;
 public void setup() 
 {
   size(800, 800);
@@ -34,7 +34,7 @@ public void setup()
   {
     stars[i] = new Star();
   }
-  for(int i = 0; i < 10; i++)
+  for(int i = 0; i < 20; i++)
   {
     asteroids.add(new Asteroid());
   }
@@ -61,13 +61,11 @@ public void draw()
   {
     asteroids.get(i).move();
     asteroids.get(i).show();
-    int asteroidsTempX = asteroids.get(i).getX();
-    int asteroidsTempY = asteroids.get(i).getY();
     for(int ii = 0; ii < bullets.size(); ii++)
     {
-      if(dist(bullets.get(ii).getX(), bullets.get(ii).getY(), asteroidsTempX, asteroidsTempY) < 10)
+      if(dist(bullets.get(ii).getX(), bullets.get(ii).getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) < 10)
       {
-        
+        score++;
         bullets.remove(ii);
         asteroids.remove(i);
         asteroids.add(new Asteroid(0, (int)(Math.random() * 800)));
@@ -98,7 +96,8 @@ public void draw()
       ship.setPointDirection(0);
     }
   }
-  
+  textSize(40);
+  text("Score: " + score, 10, 780);
 }
 public void keyPressed()
 {
@@ -236,16 +235,16 @@ class Asteroid extends Floater
     corners = 6;
     xCorners = new int[corners];
     yCorners = new int[corners];
-    xCorners[0] = 12;
-    yCorners[0] = 0;
-    xCorners[1] = 9;
-    yCorners[1] = 9;
-    xCorners[2] = -3;
-    yCorners[2] = 12;
-    xCorners[3] = -12;
-    yCorners[3] = 0;
-    xCorners[4] = -6;
-    yCorners[4] = -6;
+    xCorners[0] = 22;
+    yCorners[0] = 10;
+    xCorners[1] = 19;
+    yCorners[1] = 19;
+    xCorners[2] = -13;
+    yCorners[2] = 22;
+    xCorners[3] = -22;
+    yCorners[3] = 10;
+    xCorners[4] = -16;
+    yCorners[4] = -16;
     xCorners[5] = 3;
     yCorners[5] = -9;
     myColor = color(200);
@@ -261,18 +260,18 @@ class Asteroid extends Floater
     corners = 6;
     xCorners = new int[corners];
     yCorners = new int[corners];
-    xCorners[0] = 12;
-    yCorners[0] = 0;
-    xCorners[1] = 9;
-    yCorners[1] = 9;
-    xCorners[2] = -3;
-    yCorners[2] = 12;
-    xCorners[3] = -12;
-    yCorners[3] = 0;
-    xCorners[4] = -6;
-    yCorners[4] = -6;
-    xCorners[5] = 3;
-    yCorners[5] = -9;
+    xCorners[0] = 22;
+    yCorners[0] = 10;
+    xCorners[1] = 19;
+    yCorners[1] = 19;
+    xCorners[2] = -13;
+    yCorners[2] = 22;
+    xCorners[3] = -22;
+    yCorners[3] = 10;
+    xCorners[4] = -16;
+    yCorners[4] = -16;
+    xCorners[5] = 13;
+    yCorners[5] = -19;
     myColor = color(200);
     myCenterX = x;
     myCenterY = y;
