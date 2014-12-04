@@ -18,7 +18,7 @@ public void setup()
   {
     stars[i] = new Star();
   }
-  for(int i = 0; i < 15; i++)
+  for(int i = 0; i < 10; i++)
   {
     asteroids.add(new Asteroid());
   }
@@ -35,25 +35,26 @@ public void draw()
   for(int i = 0; i < bullets.size(); i++)
   {
     bullets.get(i).show();
-    if(shoot == true)
+    bullets.get(i).move();
+    if(bullets.get(i).getX() < 1 || bullets.get(i).getX() > 799 || bullets.get(i).getY() < 1 || bullets.get(i).getY() > 799)
     {
-      bullets.get(i).move();
-      if(bullets.get(i).getX() < 1 || bullets.get(i).getX() > 799 || bullets.get(i).getY() < 1 || bullets.get(i).getY() > 799)
-      {
-        bullets.remove (i);
-      }
+      bullets.remove (i);
     }
   }
   for(int i = 0; i < asteroids.size(); i++)
   {
     asteroids.get(i).move();
     asteroids.get(i).show();
+    int asteroidsTempX = asteroids.get(i).getX();
+    int asteroidsTempY = asteroids.get(i).getY();
     for(int ii = 0; ii < bullets.size(); ii++)
     {
-      if(dist(bullets.get(ii).getX(), bullets.get(ii).getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) < 10)
+      if(dist(bullets.get(ii).getX(), bullets.get(ii).getY(), asteroidsTempX, asteroidsTempY) < 10)
       {
-        asteroids.remove(i);
+        
         bullets.remove(ii);
+        asteroids.remove(i);
+        asteroids.add(new Asteroid(0, (int)(Math.random() * 800)));
       }
     }
   }
@@ -130,7 +131,7 @@ public void keyReleased()
   }
 }
 public void mousePressed(){
-  shoot = true;
+  //shoot = true;
   bullets.add(new Bullet(ship));
 }
 class Star
@@ -184,11 +185,6 @@ class SpaceShip extends Floater
 }
 class Bullet extends Floater
 {
-  //double dRadians;
-  public Bullet()
-  {
-
-  }
   public Bullet(SpaceShip theShip)
   {
     myColor = color(255);
@@ -243,6 +239,31 @@ class Asteroid extends Floater
     myDirectionY = 0;
     myPointDirection = 0;
     myRotationSpeed = (Math.random() * 3) - 1;
+  }
+  public Asteroid(int x, int y)
+  { 
+    corners = 6;
+    xCorners = new int[corners];
+    yCorners = new int[corners];
+    xCorners[0] = 12;
+    yCorners[0] = 0;
+    xCorners[1] = 9;
+    yCorners[1] = 9;
+    xCorners[2] = -3;
+    yCorners[2] = 12;
+    xCorners[3] = -12;
+    yCorners[3] = 0;
+    xCorners[4] = -6;
+    yCorners[4] = -6;
+    xCorners[5] = 3;
+    yCorners[5] = -9;
+    myColor = color(200);
+    myCenterX = x;
+    myCenterY = y;
+    myDirectionX = 0;
+    myDirectionY = 0;
+    myPointDirection = 0;
+    myRotationSpeed = (Math.random() * 6) - 2;
   }
   public void setX(int x){myCenterX = x;}
   public int getX(){return (int)myCenterX;}
