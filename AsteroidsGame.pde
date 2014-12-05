@@ -6,6 +6,7 @@ boolean forward = false;
 boolean backward = false;
 boolean clockwise = false;
 boolean counterclockwise = false;
+boolean gameOver = false;
 int score = 0;
 public void setup() 
 {
@@ -30,58 +31,71 @@ public void draw()
   {
     stars[i].show();
   }
-  ship.move();
-  ship.show();
-  for(int i = 0; i < bullets.size(); i++)
+  if(gameOver == false)
   {
-    bullets.get(i).show();
-    bullets.get(i).move();
-    if(bullets.get(i).getX() < 1 || bullets.get(i).getX() > 799 || bullets.get(i).getY() < 1 || bullets.get(i).getY() > 799)
+    ship.move();
+    ship.show();
+    for(int i = 0; i < bullets.size(); i++)
     {
-      bullets.remove (i);
-    }
-  }
-  for(int i = 0; i < asteroids.size(); i++)
-  {
-    asteroids.get(i).move();
-    asteroids.get(i).show();
-    for(int ii = 0; ii < bullets.size(); ii++)
-    {
-      if(dist(bullets.get(ii).getX(), bullets.get(ii).getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) < 10)
+      bullets.get(i).show();
+      bullets.get(i).move();
+      if(bullets.get(i).getX() < 1 || bullets.get(i).getX() > 799 || bullets.get(i).getY() < 1 || bullets.get(i).getY() > 799)
       {
-        score++;
-        bullets.remove(ii);
-        asteroids.remove(i);
-        asteroids.add(new Asteroid(0, (int)(Math.random() * 800)));
+        bullets.remove (i);
       }
     }
-  }
-  if(forward == true)
-  {
-    ship.accelerate(0.1);
-  }
-  if(backward == true)
-  {
-    ship.accelerate(-0.1);
-  }
-  if(clockwise == true)
-  {
-    ship.rotate(5);
-    if(ship.getPointDirection() >= 360)
+    for(int i = 0; i < asteroids.size(); i++)
     {
-      ship.setPointDirection(0);
+      asteroids.get(i).move();
+      asteroids.get(i).show();
+      for(int ii = 0; ii < bullets.size(); ii++)
+      {
+        if(dist(bullets.get(ii).getX(), bullets.get(ii).getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) < 25)
+        {
+          score++;
+          bullets.remove(ii);
+          asteroids.remove(i);
+          asteroids.add(new Asteroid(0, (int)(Math.random() * 800)));
+        }
+      }
+      if(dist(ship.getX(), ship.getY(), asteroids.get(i).getX(), asteroids.get(i).getY()) < 30)
+      {
+        gameOver = true;
+      }
     }
-  }
-  if(counterclockwise == true)
-  {
-    ship.rotate(-5);
-    if(ship.getPointDirection() <= -360)
+    if(forward == true)
     {
-      ship.setPointDirection(0);
+      ship.accelerate(0.1);
     }
+    if(backward == true)
+    {
+      ship.accelerate(-0.1);
+    }
+    if(clockwise == true)
+    {
+      ship.rotate(5);
+      if(ship.getPointDirection() >= 360)
+      {
+        ship.setPointDirection(0);
+      }
+    }
+    if(counterclockwise == true)
+    {
+      ship.rotate(-5);
+      if(ship.getPointDirection() <= -360)
+      {
+        ship.setPointDirection(0);
+      }
+    }
+    textSize(40);
+    text("Score: " + score, 10, 780);
   }
-  textSize(40);
-  text("Score: " + score, 10, 780);
+  if(gameOver == true)
+  {
+    textSize(40);
+    textAlign(CENTER, CENTER);
+    text("Score: " + score, 400, 400);
+  }
 }
 public void keyPressed()
 {
@@ -221,7 +235,7 @@ class Asteroid extends Floater
     yCorners = new int[corners];
     xCorners[0] = 22;
     yCorners[0] = 10;
-    xCorners[1] = 19;
+    xCorners[1] = 9;
     yCorners[1] = 19;
     xCorners[2] = -13;
     yCorners[2] = 22;
@@ -229,15 +243,15 @@ class Asteroid extends Floater
     yCorners[3] = 10;
     xCorners[4] = -16;
     yCorners[4] = -16;
-    xCorners[5] = 3;
-    yCorners[5] = -9;
+    xCorners[5] = 13;
+    yCorners[5] = -19;
     myColor = color(200);
     myCenterX = (int)(Math.random() * 800);
     myCenterY = (int)(Math.random() * 800);
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
-    myRotationSpeed = (Math.random() * 3) - 1;
+    myRotationSpeed = (Math.random() * 6) - 3;
   }
   public Asteroid(int x, int y)
   { 
@@ -246,7 +260,7 @@ class Asteroid extends Floater
     yCorners = new int[corners];
     xCorners[0] = 22;
     yCorners[0] = 10;
-    xCorners[1] = 19;
+    xCorners[1] = 9;
     yCorners[1] = 19;
     xCorners[2] = -13;
     yCorners[2] = 22;
@@ -262,7 +276,7 @@ class Asteroid extends Floater
     myDirectionX = 0;
     myDirectionY = 0;
     myPointDirection = 0;
-    myRotationSpeed = (Math.random() * 6) - 2;
+    myRotationSpeed = (Math.random() * 7) - 3;
   }
   public void setX(int x){myCenterX = x;}
   public int getX(){return (int)myCenterX;}
