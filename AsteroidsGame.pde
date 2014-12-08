@@ -19,7 +19,7 @@ public void setup()
   {
     stars[i] = new Star();
   }
-  for(int i = 0; i < 20; i++)
+  for(int i = 0; i < 15; i++)
   {
     asteroids.add(new Asteroid());
   }
@@ -31,6 +31,7 @@ public void draw()
   {
     stars[i].show();
   }
+  textAlign(CENTER, CENTER);
   if(gameOver == false)
   {
     ship.move();
@@ -88,13 +89,14 @@ public void draw()
       }
     }
     textSize(40);
-    text("Score: " + score, 10, 780);
+    text("Score: " + score, 100, 780);
   }
   if(gameOver == true)
   {
     textSize(40);
-    textAlign(CENTER, CENTER);
-    text("Score: " + score, 400, 400);
+    text("Score: " + score, 400, 350);
+    textSize(20);
+    text("Press n to play again.", 400, 450);
   }
 }
 public void keyPressed()
@@ -122,6 +124,18 @@ public void keyPressed()
     ship.setDirectionX(0);
     ship.setDirectionY(0);
     ship.setPointDirection((int)(Math.random() * 360));
+  }
+  if(key == 'n')
+  {
+    score = 0;
+    gameOver = false;
+    asteroids = new ArrayList <Asteroid>();
+    for(int i = 0; i < 20; i++)
+    {
+      asteroids.add(new Asteroid());
+    }
+    ship = new SpaceShip();
+    bullets = new ArrayList <Bullet>();
   }
 }
 public void keyReleased()
@@ -390,4 +404,3 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
-
